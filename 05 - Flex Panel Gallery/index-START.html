@@ -27,6 +27,7 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -44,20 +45,35 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
     }
 
-    .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
-    .panel2 { background-image:url(https://source.unsplash.com/rFKUFzjPYiQ/1500x1500); }
+    .panel1 { background-image:url(https://plus.unsplash.com/premium_photo-1672234253746-99ac19181f0b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHNreXxlbnwwfHwwfHx8MA%3D%3D); }
+    .panel2 { background-image:url(https://images.unsplash.com/photo-1517928260182-5688aead3066?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Z3JlZW4lMjBza2llc3xlbnwwfHwwfHx8MA%3D%3D); }
     .panel3 { background-image:url(https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&cs=tinysrgb&w=1500&h=1500&fit=crop&s=967e8a713a4e395260793fc8c802901d); }
-    .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
-    .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
+    .panel4 { background-image:url(https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Zm94JTIwc2lkZXxlbnwwfHwwfHx8MA%3D%3D); }
+    .panel5 { background-image:url(https://images.unsplash.com/photo-1528485238486-507af7c0aa19?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZGFyayUyMGJsdWUlMjBzdG9ybXxlbnwwfHwwfHx8MA%3D%3D); }
 
-    /* Flex Children */
+    /* Flex items */
     .panel > * {
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
+      /* border: 1px solid red; */
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
+
+    .panel > *:first-child{ transform: translateY(-100%);}
+    .panel.open-active > *:first-child{ transform: translateY(0);}
+    .panel > *:last-child{ transform: translateY(100%);}
+    .panel.open-active > *:last-child{ transform: translateY(0);}
 
     .panel p {
       text-transform: uppercase;
@@ -71,6 +87,7 @@
     }
 
     .panel.open {
+      flex: 5;
       font-size: 40px;
     }
 
@@ -106,6 +123,24 @@
   </div>
 
   <script>
+    const panels = document.querySelectorAll('.panel');
+
+    function toggleOpen() {
+      this.classList.toggle('open');
+    }
+
+    function toggleActive(e) {
+    console.log(e.propertyName);
+    if (e.propertyName.includes('flex')) {
+       this.classList.toggle('open-active');  
+    }
+    
+    }
+
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen));
+    panels.forEach(panel => panel.addEventListener('transitionen d', toggleActive));
+
+ 
 
   </script>
 
