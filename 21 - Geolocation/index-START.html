@@ -60,6 +60,40 @@
     /*Compass: https://thenounproject.com/search/?q=compass&i=592352*/
   </style>
   <script>
+  //  const arrow = document.querySelector('.arrow');
+  //  const speed = document.querySelector('.speed-value');
+   
+  //  navigator.geolocation.watchPosition((data) => {
+  //   console.log(data);
+  //   speed.textContent = data.coords.speed;
+  //   arrow.style.transform = `rotate(${data.coords.heading} deg)`;
+  //  }, (err) => {
+  //   console.error(err);
+  //   alert('Hey! you gotta allow that to happen !!');
+  //  });
+  
+
+
+
+
+  const arrow = document.querySelector('.arrow');
+    const speed = document.querySelector('.speed-value');
+
+    if ('geolocation' in navigator) {
+      navigator.geolocation.watchPosition((data) => {
+        console.log(data);
+        const currentSpeed = data.coords.speed !== null ? data.coords.speed : 0;
+        const currentHeading = data.coords.heading !== null ? data.coords.heading : 0;
+        speed.textContent = currentSpeed;
+        arrow.style.transform = `rotate(${currentHeading}deg)`;
+      }, (err) => {
+        console.error(err);
+        alert('Hey! you gotta allow that to happen !!!!');
+      });
+    } else {
+      alert('Geolocation is not supported by your browser.');
+    }
+
   </script>
 </body>
 </html>

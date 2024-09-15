@@ -16,6 +16,7 @@
 
   <div class="wrapper">
     <h2>LOCAL TAPAS</h2>
+  
     <p></p>
     <ul class="plates">
       <li>Loading Tapas...</li>
@@ -24,12 +25,75 @@
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
     </form>
+    <button class="clearList">Clear</button>
   </div>
 
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  const items = JSON.parse(localStorage.getItem('items')) || [];
+  const clearList = document.querySelector('.clearList'); 
+
+  function addItem(e) {
+    e.preventDefault();
+    const text =  (this.querySelector('[name=item]')).value;
+    const item = {
+      text,
+      done: false
+  };
+  
+  items.push(item);
+  populateList(items, itemsList);
+  localStorage.setItem('items', JSON.stringify(items));
+  this.reset();
+  }
+  
+  function clear_List() {
+    items.length = 0;
+    localStorage.removeItem('items');
+    populateList(items, itemsList);
+  }
+
+  function deleteItem(e) {
+  if (!e.target.matches('button.delete')) return;
+  const index = e.target.dataset.index;
+  items.splice(index, 1); // Remove item from array
+  localStorage.setItem('items', JSON.stringify(items)); // Update localStorage
+  populateList(items, itemsList); // Update the DOM
+}
+
+function populateList(plates = [], platesList) {
+  platesList.innerHTML = plates.map((plate, i) => {
+    return `
+        <li>
+           <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''} />
+          <label for="item${i}"> ${plate.text}  </label>
+          <button class="delete" data-index=${i}>Delete</button>
+        </li>
+    `;
+  }).join('');
+}
+
+
+itemsList.addEventListener('click', deleteItem); // Add listener for delete
+
+
+ function toggleDone(e) {
+  if (!e.target.matches('input')) return;
+    const el = e.target;
+    const index = el.dataset.index;
+    items[index].done = !items[index].done;
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList);
+ }
+
+  addItems.addEventListener('submit', addItem);
+  itemsList.addEventListener('click', toggleDone);
+  itemsList.addEventListener('click', deleteItem);
+  clearList.addEventListener('click', clear_List); 
+
+  populateList(items, itemsList);
+
 
 </script>
 

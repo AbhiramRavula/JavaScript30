@@ -11,7 +11,7 @@
     body {
       margin: 0;
       font-family: sans-serif;
-      background: url("https://source.unsplash.com/nDqA4d5NL0k/2000x2000");
+      background: url("https://imgs.search.brave.com/Qo1lpYIN7wJIGs-iN2aXS4NWNYNuPqg1K2sB0QER1FI/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxNS8x/MC8wNi8xOS8yOC90/cmVlcy05NzUwOTFf/NjQwLmpwZw");
       background-size: cover;
       display: flex;
       align-items: center;
@@ -48,7 +48,20 @@
 
 <script>
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+  
+function strip(bandName) {
+  return bandName.replace(/^(a |the |ah)/i,'').trim();
+}
 
+const sortedBands = bands.sort( (a, b) =>  strip(a) > strip(b) ? 1 : -1 );
+
+document.querySelector('#bands').innerHTML = 
+sortedBands
+.map(band => `<li> ${band} </li>`)
+.join('');
+
+
+console.log(sortedBands);
 
 </script>
 
